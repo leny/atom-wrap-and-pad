@@ -1,0 +1,12 @@
+{
+  "name": "wrap-and-pad",
+  "version": "0.0.1",
+  "main": "./lib/main",
+  "description": "Wrap and pad selection.",
+  "repository": "https://github.com/leny/atom-wrap-n-pad",
+  "license": "MIT",
+  "engines": {
+    "atom": "*"
+  },
+  "dependencies": {}
+}

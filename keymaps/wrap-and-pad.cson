@@ -1,0 +1,7 @@
+# Hi, since the commands of wrap-and-pad are dynamicly generated, I let this file empty to set your own keybindings.
+# For you informations, here's an exemple of my keybindings for wrap-n-pad
+
+# 'atom-text-editor:not([mini])':
+#   'cmd-c cmd-(': 'wrap-and-pad:wrap-and-pad-with-parenthesis'
+#   'cmd-c cmd-5': 'wrap-and-pad:wrap-and-pad-with-brackets'
+#   'cmd-c alt-cmd-(': 'wrap-and-pad:wrap-and-pad-with-curly-brackets'
