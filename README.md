@@ -13,19 +13,22 @@ This package is inspired by [gepoch/vim-surround](https://github.com/gepoch/vim-
 **wrap-and-pad** use the configuration object to store pairs of characters, so you can add your own. Default values are :
 
     "wrap-and-pad":
-        pairs:
-            "parenthesis":
+        pairs: [
+                name: "parenthesis"
                 start: "("
                 pad: " "
                 end: ")"
-            "brackets":
+            ,
+                name: "brackets"
                 start: "["
                 pad: " "
                 end: "]"
-            "curly-brackets":
+            ,
+                name: "curly-brackets"
                 start: "{"
                 pad: " "
                 end: "}"
+        ]
 
 For each property in the `pairs` object, **wrap-and-pad** will generate a command named : `wrap-and-pad:wrap-and-pad-with-[name]`, which you can bind to any keys within your keymap file.  
 By default, **wrap-and-pad** is shipped with three commands :
@@ -33,3 +36,7 @@ By default, **wrap-and-pad** is shipped with three commands :
 - `wrap-and-pad:wrap-and-pad-with-parenthesis`
 - `wrap-and-pad:wrap-and-pad-with-brackets`
 - `wrap-and-pad:wrap-and-pad-with-curly-brackets`
+
+### Trim selection before wrapping
+
+You can also trim the selection before wrapping & padding, with the `trim-before` configuration key.
