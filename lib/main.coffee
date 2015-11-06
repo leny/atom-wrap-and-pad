@@ -2,58 +2,46 @@
 
 module.exports =
     config:
+        "trim-before":
+            title: "Trim before wrap & pad"
+            description: "Trim the selection before applying the wrap & pad action."
+            type: "boolean"
+            default: no
         pairs:
-            type: "object"
-            properties:
-                "parenthesis":
-                    type: "object"
-                    properties:
-                        start:
-                            type: "string"
-                            default: "("
-                        pad:
-                            type: "string"
-                            default: " "
-                        end:
-                            type: "string"
-                            default: ")"
-                "brackets":
-                    type: "object"
-                    properties:
-                        start:
-                            type: "string"
-                            default: "["
-                        pad:
-                            type: "string"
-                            default: " "
-                        end:
-                            type: "string"
-                            default: "]"
-                "curly-brackets":
-                    type: "object"
-                    properties:
-                        start:
-                            type: "string"
-                            default: "{"
-                        pad:
-                            type: "string"
-                            default: " "
-                        end:
-                            type: "string"
-                            default: "}"
+            type: "array"
+            default: [
+                    name: "parenthesis"
+                    start: "("
+                    pad: " "
+                    end: ")"
+                ,
+                    name: "brackets"
+                    start: "["
+                    pad: " "
+                    end: "]"
+                ,
+                    name: "curly-brackets"
+                    start: "{"
+                    pad: " "
+                    end: "}"
+            ]
+            items:
+                type: "object"
 
     activate: ->
         atom.config.observe "wrap-and-pad", ( oConfig ) ->
             @disposables.dispose() if @disposables?
             @disposables = new CompositeDisposable()
 
-            for sPairName, oPairInfos of oConfig.pairs
-                oCommand = do ( sPairName, oPairInfos ) ->
-                    atom.commands.add "atom-text-editor:not([mini])", "wrap-and-pad:wrap-and-pad-with-#{ sPairName }", ->
-                        ( oEditor = atom.workspace.getActiveTextEditor() ).transact ->
-                            oEditor.selections.forEach ( oSelection ) ->
-                                sText = oSelection.getText()
-                                oSelection.insertText "#{ oPairInfos.start }#{ oPairInfos.pad }#{ sText }#{ oPairInfos.pad }#{ oPairInfos.end }"
+            bTrimBefore = oConfig[ "trim-before" ]
+
+            oConfig.pairs.forEach ( { name, start, pad, end } ) ->
+                oCommand = atom.commands.add "atom-text-editor:not([mini])", "wrap-and-pad:wrap-and-pad-with-#{ name }", ->
+                    ( oEditor = atom.workspace.getActiveTextEditor() ).transact ->
+                        oEditor.selections.forEach ( oSelection ) ->
+                            sText = oSelection.getText()
+                            sText = sText.trim() if bTrimBefore
+                            oSelection.insertText "#{ start }#{ pad }#{ sText }#{ pad }#{ end }"
                 @disposables.add oCommand
 
     deactivate: ->
